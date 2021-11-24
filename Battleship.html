@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>
+        Battleship
+    </title>
+<script>
+    alert("Instrucciones:\n" +
+    "1. Ingresa las dimensiones del tablero.\n" +
+    "2. Ingresa el numero de barcos.\n" +
+    "3. Ingresa la posicion de los barcos (Un jugador por turno).\n \n" +
+    "¡A jugar!\n" +
+    "Comienza el jugador 1.\n" +
+    "Ingresa la posicion de tu disparo (Recuerda que la primera posicion es:'0')" +
+    "Gana el primero jugador que hunda los barcos enemigos.\n \n"+
+    "Recuerda ser honorable y no mirar mientras es el turno de tu oponente.\n \n" +
+    "Divertete!")
+    Game();
+    console.log("Gracias por jugar \n Created by: Cristopher Bustos Mejia");
+
+    function Game() {
+        alert("Bienvenido a Battleship!");
+        let dimesion = parseInt(prompt("Ingresa las dimensiones del tablero"));
+        let ships = parseInt(prompt("Ingresa el numero de barcos"));
+        alert("Player 1 despligue navios")
+        let player1 = AddPlayers(dimesion, ships);
+        alert("Player 2 despligue navios")
+        let player2 = AddPlayers(dimesion, ships);
+
+        alert("Start!")
+
+        let WinningFlag = false;
+        while (WinningFlag == false) {
+            let player1Turn = true;
+            let player2Turn = false;
+            while (player1Turn == true) {
+                alert("Player 1 Turn");
+                let player1Attack = parseInt(prompt("Marque posicion de ataque " + "(" + 0 + "-" + (dimesion - 1) + ")"));
+                if (player2[player1Attack] == 1) {
+                    alert("Atacaste la posicion: " + player1Attack + " y ha sido destruida");
+                    player2[player1Attack] = null;
+                    let kills = 0;
+                    for (let i = 0; i < player2.length; i++) {
+                        kills += player2[i];
+                        }
+                    if (kills == 0) {
+                        alert("Player 1 ha ganado");
+                        alert("Fin del juego \n Gracias por jugar!");
+                        return 0;
+                            
+                    }
+                }else {
+                    alert("Atacaste la posicion: " + player1Attack + " y ha sido agua");
+                }
+                let commandFlag1 = confirm("Continuar con otra operacion?");
+                while (commandFlag1 == true) {
+                    let options = parseInt(prompt("1. Ver tableros \n2. Salir"));
+
+                    switch (options) {
+                        case 1:
+                            ShowBoards(player1, player2);
+                            break;
+                        case 2:
+                            commandFlag1 = false;
+                            break;
+                        default:
+                            alert("Opcion invalida");
+                            break;
+                    }
+                }
+                player1Turn = false;
+                player2Turn = true;
+                    
+            }
+            alert("Player 2 Turn");
+            let player2Attack = parseInt(prompt("Marque posicion de ataque "+ "(" + 0 + "-" + (dimesion - 1) + ")"));
+            if (player1[player2Attack] == 1) {
+                alert("Atacaste la posicion: " + player2Attack + " y ha sido destruida");
+                player1[player2Attack] = null;
+                let kills = 0;
+                for (let i = 0; i < player1.length; i++) {
+                    kills += player1[i];    
+                }
+                if (kills == 0) {
+                        alert("Player 2 ha ganado");
+                        alert("Fin del juego \n Gracias por jugar!");
+                        return 0;
+                    }
+            }else {
+                alert("Atacaste la posicion: " + player2Attack + " y ha sido agua");
+            }
+            let commandFlag2 = confirm("Continuar con otra operacion?");
+            while (commandFlag2 == true) {
+                let options = parseInt(prompt("1. ver tableros \n2. Salir"));
+
+                switch (options) {
+                    case 1:
+                        ShowBoards(player2, player1);
+                        break;
+                    case 2:
+                        commandFlag2 = false;
+                        break;
+                    default:
+                        alert("Opcion invalida");
+                        break;
+                }
+            }
+            player2Turn = false;
+            player1Turn = true;
+        }
+    }
+    function AddPlayers(dimension, ships) {
+        let player = [];
+        let Pships = 0;
+
+        alert("Ingresa las coordenadas del navio presionando si o no");
+        for (let i = 0; i < dimension; i++) {
+            if (Pships < ships) {
+                let flag = confirm("Estas en la posicion: " + i + "\n" + "Deseas colocar un barco aqui?" )
+                if (flag == true) {
+                    player.push(1)
+                    Pships++;
+                } else {
+                    player.push(0)
+                }   
+            } else {
+                player.push(0)
+            }
+        }
+        return player;
+    }
+    function ShowBoards(playerIn,playerOut) {
+        let dimension = playerIn.length;
+        let boardIn = "";
+        let boardOut = "";
+
+        for (let i = 0; i < playerIn.length; i++) {
+            switch (playerIn[i]) {
+                case 1:
+                    boardIn += "O";
+                break;
+
+                case 0:
+                    boardIn += "~";
+                break;
+                case null:
+                    boardIn += "X";
+                break;
+                default:
+                    alert("Error");
+                break;
+            }
+        } 
+        alert("Tu tablero: \n" + boardIn);
+        for (let i = 0; i < playerOut.length; i++) {
+            switch (playerOut[i]) {
+                case 0:
+                    boardOut += "~";
+                break;
+                case 1:
+                    boardOut += "~";
+                break;
+                case null:
+                    boardOut += "X";
+                break;
+                default:
+                    alert("Error");
+                break;
+            }
+        }
+        alert("Tablero del oponente: \n" + boardOut);
+    }
+
+ </script>
+</html>
